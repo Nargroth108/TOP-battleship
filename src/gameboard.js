@@ -76,13 +76,22 @@ export default function GameBoard() {
     const value = board[y][x];
     if (value === "o") {
       board[y][x] = "missed";
-    } else {
-      const ship = fleet.filter((thisShip) => thisShip.getName() === value)[0];
-      if (ship.getSunk()) {
-        const index = fleet.indexOf(ship);
-        fleet.splice(index, 1);
-      }
+      return true;
     }
+    if (value === "missed" || value.endsWith("Shot")) {
+      console.log("dupe shot");
+      return false;
+    }
+
+    const ship = fleet.filter((thisShip) => thisShip.getName() === value)[0];
+    board[y][x] = `${value}Shot`;
+
+    if (ship.getSunk()) {
+      const index = fleet.indexOf(ship);
+      fleet.splice(index, 1);
+    }
+
+    return true;
   }
 
   function allSunk() {
