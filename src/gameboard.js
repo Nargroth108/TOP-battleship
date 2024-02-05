@@ -72,15 +72,23 @@ export default function GameBoard() {
     });
   })();
 
-  //   function receiveAttack(x, y) {
-  //     if (board[x][y] === undefined) {
-  //       board[x][y] = "missed";
-  //     } else {
-  //       const ship = board[x][y];
-  //       ship.hit();
-  //     }
-  //     return board[x][y];
-  //   }
+  function receiveAttack(y, x) {
+    const value = board[y][x];
+    if (value === "o") {
+      board[y][x] = "missed";
+    } else {
+      const ship = fleet.filter((thisShip) => thisShip.getName() === value)[0];
+      if (ship.getSunk()) {
+        const index = fleet.indexOf(ship);
+        fleet.splice(index, 1);
+      }
+    }
+  }
 
-  return { board, placeShipX, placeShipY, fleet };
+  function allSunk() {
+    if (fleet.length === 0) return true;
+    return false;
+  }
+
+  return { board, receiveAttack, allSunk };
 }
