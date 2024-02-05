@@ -1,17 +1,23 @@
-export default function Ship(length) {
-  let hitCount = 0;
-  let sunk = false;
+export default function Ship(shipName, shipLength) {
+  const name = shipName;
+  const length = shipLength;
+  let numberOfHits = 0;
+  let isSunk = false;
+  const coordinates = [];
+
+  const getName = () => name;
+  const getLength = () => length;
+  const getHits = () => numberOfHits;
+  const getSunk = () => isSunk;
+
+  function sinkShip() {
+    isSunk = true;
+  }
 
   function hit() {
-    hitCount += 1;
-    return hitCount;
+    numberOfHits += 1;
+    if (numberOfHits === length) sinkShip();
   }
 
-  function isSunk() {
-    if (length === hitCount) {
-      sunk = true;
-    }
-  }
-
-  return { length, hitCount, sunk, hit, isSunk };
+  return { coordinates, getLength, getName, getSunk, getHits, hit };
 }

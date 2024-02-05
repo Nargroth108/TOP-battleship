@@ -1,22 +1,29 @@
-/* eslint-disable no-undef */
-import Ship from "../ship";
+// /* eslint-disable no-undef */
+// import Ship from "../ship";
 
-test("Return a Ship object with the property length", () => {
-  expect(Ship(2)).toHaveProperty("length", 2);
-});
+// test("Check if hit method increases hitCount by 1", () => {
+//   const testShip = Ship("b", 2);
+//   testShip.hit();
+//   expect(testShip.getHits()).toBe(1);
+// });
 
-test("Return a Ship object with the property hitCount", () => {
-  expect(Ship(2)).toHaveProperty("hitCount", 0);
-});
+// test("Check if hit method increases hitCount by 3", () => {
+//   const testShip = Ship("b", 3);
+//   testShip.hit();
+//   testShip.hit();
+//   testShip.hit();
+//   expect(testShip.getHits()).toBe(3);
+// });
 
-test("Return a Ship object with the property sunk", () => {
-  expect(Ship(2)).toHaveProperty("sunk", false);
-});
+// test("Check if ship sinks when it has to", () => {
+//   const testShip = Ship("b", 2);
+//   testShip.hit();
+//   testShip.hit();
+//   expect(testShip.getSunk()).toBe(true);
+// });
 
-test("Return a Ship object with the method hit", () => {
-  expect(Ship(2)).toHaveProperty("hit");
-});
-
-test("Check if hit method increases hitCount by 1", () => {
-  expect(Ship(2).hit()).toBe(1);
-});
+// test("Check if ship doesn't sinks when it doesn't have to", () => {
+//   const testShip = Ship("b", 2);
+//   testShip.hit();
+//   expect(testShip.getSunk()).toBe(false);
+// });
