@@ -77,24 +77,33 @@ export default function GameBoard() {
 
   function receiveAttack(y, x) {
     const value = board[y][x];
+    let result;
 
     if (value === "o") {
       board[y][x] = "x";
       wasAttackSuccesful = true;
-    } else if (value === "x" || value.endsWith("Shot")) {
-      wasAttackSuccesful = false;
-    } else {
-      const ship = fleet.filter((thisShip) => thisShip.getName() === value)[0];
-      ship.hit();
-      board[y][x] = `${value}Shot`;
-
-      if (ship.getSunk() === true) {
-        const index = fleet.indexOf(ship);
-        fleet.splice(index, 1);
-      }
-
-      wasAttackSuccesful = true;
+      result = "Missed...";
+      return result;
     }
+    if (value === "x" || value.endsWith("Shot")) {
+      wasAttackSuccesful = false;
+      result = "You shot here before!";
+      return result;
+    }
+    const ship = fleet.filter((thisShip) => thisShip.getName() === value)[0];
+    ship.hit();
+    board[y][x] = `${value}Shot`;
+
+    if (ship.getSunk() === true) {
+      const index = fleet.indexOf(ship);
+      fleet.splice(index, 1);
+      result = `${ship.getName()} has sunk!`;
+      return result;
+    }
+
+    wasAttackSuccesful = true;
+    result = `A ship was hit!`;
+    return result;
   }
 
   function allSunk() {

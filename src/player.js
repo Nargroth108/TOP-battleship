@@ -10,17 +10,20 @@ export default function Player(playerName, playerType) {
   const getType = () => type;
 
   function playTurn(enemyBoard, y, x) {
+    let result;
+
     if (getType() === "bot") {
       const randomNumber = (number) => Math.floor(Math.random() * number);
 
-      enemyBoard.receiveAttack(randomNumber(10), randomNumber(10));
-
+      result = enemyBoard.receiveAttack(randomNumber(10), randomNumber(10));
       if (enemyBoard.getWasAttackSuccesful() === false) {
-        playTurn(enemyBoard);
+        result = playTurn(enemyBoard);
       }
-    } else {
-      enemyBoard.receiveAttack(y, x);
+      return result;
     }
+
+    result = enemyBoard.receiveAttack(y, x);
+    return result;
   }
 
   return { gameBoard, getName, getType, playTurn };

@@ -10,14 +10,16 @@ body {
   background-color: black;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 30px;
 }
 
 .board {
   margin: 25px;
   display: grid;
-  grid-template: 20px 1fr 30px / 20px 1fr;
+  grid-template: 20px 1fr 30px 50px / 20px 1fr;
   width: 320px;
-  aspect-ratio: 1;
+  /* aspect-ratio: 1; */
 }
 
 .number-container,
@@ -31,6 +33,13 @@ body {
 .map-title {
   grid-row: 3 / 4;
   text-align: center;
+  width: 320px;
+}
+
+.map-info {
+  grid-row: 4 / 5;
+  color: white;
+  font-style: italic;
   width: 320px;
 }
 

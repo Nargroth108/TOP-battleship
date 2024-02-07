@@ -1,5 +1,10 @@
 import Player from "./player";
-import { createCells, createMap, removePageElements } from "./helper";
+import {
+  createCells,
+  createMap,
+  removePageElements,
+  setMapInfoContent,
+} from "./helper";
 
 function gameLoop(player, bot, playerDisplayTable, botDisplayTable) {
   const playerGrid = playerDisplayTable.querySelector(".cell-container");
@@ -11,18 +16,25 @@ function gameLoop(player, bot, playerDisplayTable, botDisplayTable) {
       const { x } = cell.dataset;
       const { y } = cell.dataset;
 
-      player.playTurn(bot.gameBoard, y, x);
+      let result = player.playTurn(bot.gameBoard, y, x);
       createCells(botGrid, bot.gameBoard.board, bot.getType());
-
+      setMapInfoContent(botDisplayTable, result);
       if (bot.gameBoard.getWasAttackSuccesful()) {
         if (bot.gameBoard.allSunk() === true) {
-          console.log(`GG, you defeated an extremely dumb AI...`);
+          setMapInfoContent(
+            botDisplayTable,
+            "GG, you defeated an extremely dumb AI...",
+          );
         } else {
-          bot.playTurn(player.gameBoard, y, x);
+          result = bot.playTurn(player.gameBoard, y, x);
           createCells(playerGrid, player.gameBoard.board, player.getType());
+          setMapInfoContent(playerDisplayTable, result);
           if (player.gameBoard.getWasAttackSuccesful()) {
             if (player.gameBoard.allSunk()) {
-              console.log(`Damn, you got beaten by an extremely dumb AI...`);
+              setMapInfoContent(
+                playerDisplayTable,
+                "Damn, you got beaten by an extremely dumb AI...",
+              );
             } else {
               gameLoop(player, bot, playerDisplayTable, botDisplayTable);
             }

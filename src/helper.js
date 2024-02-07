@@ -80,6 +80,17 @@ function createTitle(description) {
   return title;
 }
 
+function createInfo() {
+  const info = document.createElement("div");
+  info.classList.add("map-info");
+  return info;
+}
+
+function setMapInfoContent(board, message) {
+  const info = board.querySelector(".map-info");
+  info.innerText = message;
+}
+
 function createMap(description, gameBoard, boardType) {
   const map = document.createElement("div");
   map.id = `board-${description}`;
@@ -89,8 +100,9 @@ function createMap(description, gameBoard, boardType) {
   map.appendChild(createNumbersSection());
   map.appendChild(createGrid(description, gameBoard, boardType));
   map.appendChild(createTitle(description));
+  map.appendChild(createInfo());
 
   return map;
 }
 
-export { createCells, createMap, removePageElements };
+export { createCells, createMap, removePageElements, setMapInfoContent };
