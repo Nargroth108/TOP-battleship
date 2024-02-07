@@ -72,26 +72,30 @@ export default function GameBoard() {
     });
   })();
 
+  let wasAttackSuccesful = false;
+  const getWasAttackSuccesful = () => wasAttackSuccesful;
+
   function receiveAttack(y, x) {
     const value = board[y][x];
+
     if (value === "o") {
-      board[y][x] = "missed";
-      return true;
-    }
-    if (value === "missed" || value.endsWith("Shot")) {
+      board[y][x] = "x";
+      wasAttackSuccesful = true;
+    } else if (value === "x" || value.endsWith("Shot")) {
       console.log("dupe shot");
-      return false;
+      wasAttackSuccesful = false;
+    } else {
+      const ship = fleet.filter((thisShip) => thisShip.getName() === value)[0];
+      ship.hit();
+      board[y][x] = `${value}Shot`;
+
+      if (ship.getSunk() === true) {
+        const index = fleet.indexOf(ship);
+        fleet.splice(index, 1);
+      }
+
+      wasAttackSuccesful = true;
     }
-
-    const ship = fleet.filter((thisShip) => thisShip.getName() === value)[0];
-    board[y][x] = `${value}Shot`;
-
-    if (ship.getSunk()) {
-      const index = fleet.indexOf(ship);
-      fleet.splice(index, 1);
-    }
-
-    return true;
   }
 
   function allSunk() {
@@ -99,5 +103,5 @@ export default function GameBoard() {
     return false;
   }
 
-  return { board, receiveAttack, allSunk };
+  return { board, receiveAttack, allSunk, getWasAttackSuccesful, randomNumber };
 }
