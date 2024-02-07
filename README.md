@@ -1,3 +1,3 @@
-# test
+# Battleship game
 
-Template with Webpack, ESLint, and hopefully Prettier
+A project for TheOdinProject's JavaScript curriculum, in which I will build a battleship game, using the newly learnt "test first" approach to development.
