@@ -82,7 +82,6 @@ export default function GameBoard() {
       board[y][x] = "x";
       wasAttackSuccesful = true;
     } else if (value === "x" || value.endsWith("Shot")) {
-      console.log("dupe shot");
       wasAttackSuccesful = false;
     } else {
       const ship = fleet.filter((thisShip) => thisShip.getName() === value)[0];

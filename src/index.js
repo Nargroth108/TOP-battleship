@@ -1,51 +1,35 @@
-// import GameBoard from "./gameboard";
 import Player from "./player";
 import { createCells, createMap, removePageElements } from "./helper";
 
-function playTurn(player, opponent, playerDisplayTable, opponentDisplayTable) {
+function gameLoop(player, bot, playerDisplayTable, botDisplayTable) {
   const playerGrid = playerDisplayTable.querySelector(".cell-container");
-  const opponentGrid = opponentDisplayTable.querySelector(".cell-container");
+  const botGrid = botDisplayTable.querySelector(".cell-container");
 
-  const opponentCells = opponentDisplayTable.querySelectorAll(".cell");
-  opponentCells.forEach((cell) => {
+  const botCells = botDisplayTable.querySelectorAll(".cell");
+  botCells.forEach((cell) => {
     cell.addEventListener("click", () => {
       const { x } = cell.dataset;
       const { y } = cell.dataset;
 
-      opponent.gameBoard.receiveAttack(y, x);
-      createCells(opponentGrid, opponent.gameBoard.board, "bot");
+      player.playTurn(bot.gameBoard, y, x);
+      createCells(botGrid, bot.gameBoard.board, bot.getType());
 
-      if (opponent.gameBoard.getWasAttackSuccesful()) {
-        if (opponent.gameBoard.allSunk() === true) {
-          console.log("gg, bot ded");
+      if (bot.gameBoard.getWasAttackSuccesful()) {
+        if (bot.gameBoard.allSunk() === true) {
+          console.log(`GG, you defeated an extremely dumb AI...`);
         } else {
-          opponent.playBotTurn(player.gameBoard);
-          createCells(playerGrid, player.gameBoard.board, "player");
-
+          bot.playTurn(player.gameBoard, y, x);
+          createCells(playerGrid, player.gameBoard.board, player.getType());
           if (player.gameBoard.getWasAttackSuccesful()) {
             if (player.gameBoard.allSunk()) {
-              console.log("rip you ded");
+              console.log(`Damn, you got beaten by an extremely dumb AI...`);
             } else {
-              playTurn(
-                player,
-                opponent,
-                playerDisplayTable,
-                opponentDisplayTable,
-              );
+              gameLoop(player, bot, playerDisplayTable, botDisplayTable);
             }
-          } else {
-            console.log("dupe attack bruh bot");
-            playTurn(
-              player,
-              opponent,
-              playerDisplayTable,
-              opponentDisplayTable,
-            );
           }
         }
       } else {
-        console.log("dupe attack bruh");
-        playTurn(player, opponent, playerDisplayTable, opponentDisplayTable);
+        gameLoop(player, bot, playerDisplayTable, botDisplayTable);
       }
     });
   });
@@ -67,22 +51,7 @@ function loadSecondPage(newPlayer) {
   BODY.appendChild(playerDisplayTable);
   BODY.appendChild(botDisplayTable);
 
-  playTurn(player, bot, playerDisplayTable, botDisplayTable);
-
-  //   opponent.gameBoard.receiveAttack([y, x]);
-  //   if (opponent.gameBoard.getWasAttackSuccesful()) {
-  //     console.log(opponent.gameBoard.allSunk());
-  //     if (opponent.gameBoard.allSunk()) {
-  //       console.log("gg");
-  //     } else {
-  //       switchOpponent();
-  //       turn();
-  //     }
-  //   } else {
-  //     console.log("missed lol");
-  //     turn();
-  //   }
-  // }
+  gameLoop(player, bot, playerDisplayTable, botDisplayTable);
 }
 
 function loadFirstPage() {
@@ -115,39 +84,3 @@ function loadFirstPage() {
 }
 
 loadFirstPage();
-
-// const playerOne = Player("Nargroth", "human");
-// console.log(playerOne);
-
-// const playerTwo = Player("bot", "computer");
-
-// let opponent = playerTwo;
-
-// function switchOpponent() {
-//   if (opponent === playerOne) opponent = playerTwo;
-//   else opponent = playerOne;
-// }
-
-// function turn() {
-//   console.table(playerOne.gameBoard.board);
-//   console.table(playerTwo.gameBoard.board);
-
-//   const y = prompt(`y, against ${opponent.getName()}`);
-//   const x = prompt(`x, against ${opponent.getName()}`);
-
-//   opponent.gameBoard.receiveAttack([y, x]);
-//   if (opponent.gameBoard.getWasAttackSuccesful()) {
-//     console.log(opponent.gameBoard.allSunk());
-//     if (opponent.gameBoard.allSunk()) {
-//       console.log("gg");
-//     } else {
-//       switchOpponent();
-//       turn();
-//     }
-//   } else {
-//     console.log("missed lol");
-//     turn();
-//   }
-// }
-
-// turn();

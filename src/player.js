@@ -9,11 +9,19 @@ export default function Player(playerName, playerType) {
   const getName = () => name;
   const getType = () => type;
 
-  function playBotTurn(enemyBoard) {
-    const randomNumber = (number) => Math.floor(Math.random() * number);
+  function playTurn(enemyBoard, y, x) {
+    if (getType() === "bot") {
+      const randomNumber = (number) => Math.floor(Math.random() * number);
 
-    enemyBoard.receiveAttack(randomNumber(10), randomNumber(10));
+      enemyBoard.receiveAttack(randomNumber(10), randomNumber(10));
+
+      if (enemyBoard.getWasAttackSuccesful() === false) {
+        playTurn(enemyBoard);
+      }
+    } else {
+      enemyBoard.receiveAttack(y, x);
+    }
   }
 
-  return { gameBoard, getName, getType, playBotTurn };
+  return { gameBoard, getName, getType, playTurn };
 }
